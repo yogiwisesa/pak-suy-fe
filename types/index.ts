@@ -34,6 +34,17 @@ export type ExamRoot = {
   problems: ExamProblem[];
 };
 
+export type ExamAnswer = {
+  title: string;
+  groupId?: number;
+
+  examId: string;
+  studentId: string;
+  studentName: string;
+  correctAnswerCount: number;
+  problems: ExamProblem[];
+};
+
 export type Note = {
   from: string;
   body: string;
@@ -44,4 +55,9 @@ export type NoteRoot = {
   groupId: number;
   date: string;
   notes: Note[];
+};
+
+export type MemberRoot = {
+  student: Student;
+  group: Group;
 };

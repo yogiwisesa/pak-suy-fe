@@ -1,6 +1,7 @@
-import { Box, Button, Flex, IconButton, Select, Text } from '@chakra-ui/core';
+import { Box, Button, Flex, IconButton, Select, useToast } from '@chakra-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { CgFileDocument } from 'react-icons/cg';
 import { RiDeleteBinLine, RiEdit2Line } from 'react-icons/ri';
 import useSWR from 'swr';
 
@@ -10,6 +11,7 @@ import axios from '../../lib/axios';
 import { ExamRoot, Group } from '../../types';
 
 const AturUjian: React.FC = () => {
+  const toast = useToast();
   const router = useRouter();
   const { guruId } = router.query;
 
@@ -67,7 +69,27 @@ const AturUjian: React.FC = () => {
             marginRight="0.25rem"
           />
 
-          <Button variantColor="btnKata">Mulai Ujian</Button>
+          <IconButton
+            tabIndex={-1}
+            variantColor="btnLizard"
+            aria-label="edit"
+            onClick={() => router.push(`/hasil-ujian/${exam.id}`)}
+            icon={CgFileDocument}
+            marginRight="0.25rem"
+          />
+
+          <Button
+            variantColor="btnKata"
+            onClick={() => {
+              axios.get(`/start-exam/${exam.id}`).then(() => {
+                toast({
+                  title: 'Ujian sudah dimulai😄',
+                  description: 'Siswa sudah dinotifikasi'
+                });
+              });
+            }}>
+            Mulai Ujian
+          </Button>
         </Box>
       ))}
 

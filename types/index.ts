@@ -20,10 +20,18 @@ export type Group = {
   students?: Student[];
 };
 
+export type Similar = {
+  score: number;
+  student: ExamAnswer;
+  target: string;
+};
+
 export type ExamProblem = {
   problem: string;
   answers: string[];
   correctAnswer: string;
+  answer?: string;
+  similars?: Similar[];
 };
 
 export type ExamRoot = {
@@ -39,10 +47,10 @@ export type ExamAnswer = {
   groupId?: number;
 
   examId: string;
-  studentId: string;
+  studentId: number;
   studentName: string;
   correctAnswerCount: number;
-  problems: ExamProblem[];
+  problems?: ExamProblem[];
 };
 
 export type Note = {

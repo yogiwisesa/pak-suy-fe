@@ -20,7 +20,7 @@ const Hello: React.FC = () => {
   return (
     <Box>
       <Select placeholder="Select option">
-        {notes.map((note) => (
+        {notes?.map((note) => (
           <option key={note.date} value="option1">
             {dayjs(note.date).format('MMMM dd')}
           </option>

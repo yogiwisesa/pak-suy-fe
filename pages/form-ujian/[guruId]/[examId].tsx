@@ -19,6 +19,7 @@ import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import * as yup from 'yup';
 
+import { TextMedium } from '../../../components/Text';
 import axios from '../../../lib/axios';
 import { ExamRoot, Group } from '../../../types';
 
@@ -26,7 +27,7 @@ import { ExamRoot, Group } from '../../../types';
 const UjianSchema = yup.object().shape({
   title: yup.string().required('Judul ujian tidak boleh kosong'),
   duration: yup.number().required('Durasi ujian tidak boleh kosong'),
-  groupId: yup.number().required('Kelas tidak boleh kosong'),
+  groupId: yup.string().required('Kelas tidak boleh kosong'),
   problems: yup.array().of(
     yup.object().shape({
       problem: yup.string().required('Soal tidak boleh kosong'),
@@ -54,7 +55,7 @@ const AturUjian: React.FC = () => {
                 duration: '',
                 groupId: null,
                 id: uuidv4(),
-                problems: [{ problem: '', answers: [''], correctAnswer: '' }]
+                problems: [{ problem: '', answers: [], correctAnswer: '' }]
               }
         }
         validationSchema={UjianSchema}
@@ -89,7 +90,7 @@ const AturUjian: React.FC = () => {
               {({ field, form }) => (
                 <FormControl isInvalid={form.errors.duration && form.touched.duration} mb="14px">
                   <FormLabel htmlFor="duration">Durasi Ujian (Menit)</FormLabel>
-                  <Input {...field} type="duration" id="duration" placeholder="60" />
+                  <Input {...field} type="number" id="duration" placeholder="60" />
                   <FormErrorMessage>{form.errors.duration}</FormErrorMessage>
                 </FormControl>
               )}
@@ -150,6 +151,10 @@ const AturUjian: React.FC = () => {
                               <FormErrorMessage>
                                 {get(form, `errors.problems[${index}].problem`)}
                               </FormErrorMessage>
+                              <TextMedium marginTop="0.5rem">
+                                {!props.values.problems[index].answers.length &&
+                                  'Soal ini adalah soal essay.'}
+                              </TextMedium>
                             </FormControl>
                           )}
                         </Field>
@@ -248,6 +253,11 @@ const AturUjian: React.FC = () => {
                                     {answer}
                                   </option>
                                 ))}
+                                {!props.values.problems[index].answers.length && (
+                                  <option key="essay" value="essay">
+                                    Jawaban Essay
+                                  </option>
+                                )}
                               </Select>
                               <FormErrorMessage>
                                 {get(form, `errors.problems[${index}].correctAnswer`)}
@@ -261,7 +271,7 @@ const AturUjian: React.FC = () => {
                     onClick={() =>
                       arrayHelpers.insert(props.values.problems.length, {
                         problem: '',
-                        answers: [''],
+                        answers: [],
                         correctAnswer: ''
                       })
                     }

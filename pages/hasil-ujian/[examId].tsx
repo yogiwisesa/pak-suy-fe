@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useSWR from 'swr';
 
-import { Heading2, Heading3 } from '../../components/Heading';
+import { Heading2, Heading3, Heading4 } from '../../components/Heading';
 import { TextMedium } from '../../components/Text';
 import { ExamAnswer } from '../../types';
 import AnswerBox from './components/AnswerBox';
@@ -17,8 +17,10 @@ const HasilUjian: React.FC = () => {
   return (
     <Box padding="1rem">
       <Heading2 marginBottom="0.75rem">Hasil Ujian</Heading2>
-      {data && Boolean(data.length) && <Heading3 marginBottom="0.75rem">{data[0].title}</Heading3>}
-
+      {data && Boolean(data.length) && <Heading4 marginBottom="0.75rem">{data[0].title}</Heading4>}
+      {data && !data.length && (
+        <Heading3 marginBottom="0.75rem">Tidak ada jawaban ditemukan!</Heading3>
+      )}
       {data?.map((exam) => (
         <Box
           key={exam.studentId}

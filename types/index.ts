@@ -37,7 +37,7 @@ export type ExamProblem = {
 export type ExamRoot = {
   duration: number;
   title: string;
-  groupId?: number;
+  groupId?: number | null;
   id: string;
   problems: ExamProblem[];
 };

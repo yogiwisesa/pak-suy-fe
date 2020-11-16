@@ -44,26 +44,26 @@ const AturUjian: React.FC = () => {
   const { data } = useSWR<Group[]>(`/teacher-class/${guruId}/`);
   const { data: dataExam } = useSWR<ExamRoot>(`/exam/detail/${examId}/`);
 
+  const initValue =
+    examId && dataExam
+      ? dataExam
+      : {
+          title: '',
+          duration: 0,
+          groupId: null,
+          id: uuidv4(),
+          problems: [{ problem: '', answers: [], correctAnswer: '' }]
+        };
   return (
     <Box padding="1rem">
       <Formik
-        initialValues={
-          examId && dataExam
-            ? dataExam
-            : {
-                title: '',
-                duration: '',
-                groupId: null,
-                id: uuidv4(),
-                problems: [{ problem: '', answers: [], correctAnswer: '' }]
-              }
-        }
+        initialValues={initValue}
         validationSchema={UjianSchema}
         enableReinitialize={true}
         onSubmit={(values, actions) => {
           const body = {
             ...values,
-            groupId: parseInt(values.groupId, 10)
+            groupId: values.groupId
           };
 
           axios

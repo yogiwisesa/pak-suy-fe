@@ -1,5 +1,4 @@
-import { Box, Select } from '@chakra-ui/core';
-import dayjs from 'dayjs';
+import { Box, Text } from '@chakra-ui/core';
 import useSWR from 'swr';
 
 type Note = {
@@ -19,13 +18,7 @@ const Hello: React.FC = () => {
 
   return (
     <Box>
-      <Select placeholder="Select option">
-        {notes?.map((note) => (
-          <option key={note.date} value="option1">
-            {dayjs(note.date).format('MMMM dd')}
-          </option>
-        ))}
-      </Select>
+      <Text>Chatbot Pak Suy</Text>
     </Box>
   );
 };

@@ -63,7 +63,7 @@ const AturUjian: React.FC = () => {
         onSubmit={(values, actions) => {
           const body = {
             ...values,
-            groupId: values.groupId
+            groupId: parseInt(`${values.groupId}`, 10)
           };
 
           axios
